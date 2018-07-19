@@ -18,10 +18,19 @@ const courseSchema = new mongoose.Schema({
 //Create a model:  Model defines a programming interface for itnracting with the databsae (CRUD) etc.,
 const Course = mongoose.model('Course', courseSchema);
 
-//Create a course object
-const course = new Course ({
-    name: 'Node.js Course',
-    authoer: 'Prash',
-    tags: ['node', 'backend'],  //document is mongodb can be a complex object like an array.
+
+
+async function CreateCourse(){
+    //Create a course object
+    const course = new Course ({
+    name: 'Angular Course',
+    author: 'Prash',
+    tags: ['angular', 'frontsend'],  //document is mongodb can be a complex object like an array.
     isPublished: true
-}) ;
+    }) ;
+
+    const result = await course.save();
+    console.log(result);
+}
+
+CreateCourse();

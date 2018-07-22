@@ -48,7 +48,7 @@ async function GetCourses(){
 
     const courses = await Course
                                 .find()
-                                .or([{author: 'Prash'}, {isPublished: true}])  //Courses published by Prash or published courses.
+                                .and([{author: 'Prash'}, {isPublished: true}])//Courses published by Prash and published courses.
                                 .limit(10)  //Limit the number of results.
                                 .sort({name: 1}) //Sort in ascending order.
                                 .select({name: 1, tags: 1}); //Select the desired properties in the output.

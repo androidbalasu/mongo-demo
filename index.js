@@ -46,9 +46,11 @@ async function GetCourses(){
     //Logical operators
     //or and and
 
+    //Find an author whose name starts with 'Prash'
     const courses = await Course
-                                .find()
-                                .and([{author: 'Prash'}, {isPublished: true}])//Courses published by Prash and published courses.
+                                //.find({author: /^Prash/})  //Find courses that start with Prash.
+                                //.find({author: /Prash$/i}) //Find courses that end with Prash and is case insensitive.
+                                .find({author: /.*Prash.*/}) //Find courses that have Prash in the author name.
                                 .limit(10)  //Limit the number of results.
                                 .sort({name: 1}) //Sort in ascending order.
                                 .select({name: 1, tags: 1}); //Select the desired properties in the output.

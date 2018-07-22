@@ -41,8 +41,8 @@ async function GetCourses(){
     //Find an author whose name starts with 'Prash'
     const courses = await Course
                                 .find({author: 'Prash', isPublished: true}) 
-                                .skip()
-                                .limit(10)  //Limit the number of results.
+                                .skip((pageNumber - 1) * pageSize)
+                                .limit(pageSize)  //Limit the number of results.
                                 .sort({name: 1}) //Sort in ascending order.
                                 // .select({name: 1, tags: 1}); //Select the desired properties in the output.
                                 .count();

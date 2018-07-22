@@ -15,7 +15,7 @@ const courseSchema = new mongoose.Schema({
     isPublished: Boolean
 });
 
-//Create a model:  Model defines a programming interface for itnracting with the databsae (CRUD) etc.,
+//Create a model:  Model defines a programming interface for interacting with the databsae (CRUD) etc.,
 const Course = mongoose.model('Course', courseSchema);
 
 async function CreateCourse(){
@@ -33,10 +33,11 @@ async function CreateCourse(){
 //CreateCourse();
 
 async function GetCourses(){
-    const courses = await Course.find({
-        author: 'Prash',
-        isPublished: true
-    });
+    const courses = await Course
+                                .find({author: 'Prash',isPublished: true})
+                                .limit(10)  //Limit the number of results.
+                                .sort({name: 1}) //Sort in ascending order.
+                                .select({name: 1, tags: 1}); //Select the desired properties in the output.
     console.log(courses);
 }
 

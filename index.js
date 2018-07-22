@@ -53,7 +53,8 @@ async function GetCourses(){
                                 .find({author: /.*Prash.*/}) //Find courses that have Prash in the author name.
                                 .limit(10)  //Limit the number of results.
                                 .sort({name: 1}) //Sort in ascending order.
-                                .select({name: 1, tags: 1}); //Select the desired properties in the output.
+                                // .select({name: 1, tags: 1}); //Select the desired properties in the output.
+                                .count();
     console.log(courses);
 }
 

@@ -33,24 +33,15 @@ async function CreateCourse(){
 //CreateCourse();
 
 async function GetCourses(){
-    //Comparison operators
-    //eq (equal)
-    //ne (not equal)
-    //gt (greather than)
-    //gte (greather than or equal to)
-    //lt (less than)
-    //lte (less  than or equal to)
-    //in
-    //nin (not in)
+    const pageNumber = 2;
+    const pageSize = 10;   //Normally these are sent as query parameters to a REST api.
 
-    //Logical operators
-    //or and and
+    //   /api/courses?pageNumber=2&pageSize=10
 
     //Find an author whose name starts with 'Prash'
     const courses = await Course
-                                //.find({author: /^Prash/})  //Find courses that start with Prash.
-                                //.find({author: /Prash$/i}) //Find courses that end with Prash and is case insensitive.
-                                .find({author: /.*Prash.*/}) //Find courses that have Prash in the author name.
+                                .find({author: 'Prash', isPublished: true}) 
+                                .skip()
                                 .limit(10)  //Limit the number of results.
                                 .sort({name: 1}) //Sort in ascending order.
                                 // .select({name: 1, tags: 1}); //Select the desired properties in the output.

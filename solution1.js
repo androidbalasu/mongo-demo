@@ -51,22 +51,13 @@ async function GetCourses(){
 
 //GetCourses();
 
-async function updateCourse(id){
-    //Approach: Update first
-    //Update directly
-    //Optionally get the updated document.
+async function removeCourse(id){
+    //Delete a course.
 
-    
-    const course = await Course.findByIdAndUpdate(id, {
-        //Use on or more of the mongodb operators.
-        $set: {
-            author: 'Dumtacka',
-            isPublished: true
-        }
-    }, {new: true});
-    
+    //const result = await Course.deleteOne({_id: id});
+    const course = await Course.findByIdAndRemove (id);
     console.log(course);
 }
 
-updateCourse('5b50fdfc7b3ba87b2c6db2f5');
+removeCourse('5b50fdfc7b3ba87b2c6db2f5');
 

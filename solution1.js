@@ -22,14 +22,19 @@ const Course = mongoose.model('Course', CourseSchema);
 
 async function GetCourses(){
 return await Course.find({isPublished: true})
-      .or([{tags: 'frontend'}, {tags: 'backend'}])
+      .or([{price: {$gte: 15}}, {name: /.*by.*/i}])
       .sort({price: -1})
-      .select({name: 1, author: 1})
+      .select({name: 1, author: 1, price: 1})
 }
 
 async function run(){
+    try { 
     const courses = await GetCourses();
     console.log(courses);
+    }
+    catch(error){
+        console.log('Error '+ error);
+    }
 }
 
 run();

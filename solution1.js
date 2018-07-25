@@ -52,31 +52,20 @@ async function GetCourses(){
 //GetCourses();
 
 async function updateCourse(id){
-    //Approach: Query first.
-    // findById()
-    // Modify its properties
-    //Save()
-
-    const course = await Course.findById(id);
-    if (!course) return;
-
-    //1) Setting properties individually.
-    course.isPublished = true;
-    course.author = 'Another author';
-
-    // //2) Setting properties using the set method.
-    // course.set({
-    //     isPublished: true,
-    //     author: 'Another author'
-    // });
-
-    const result = await course.save();
-
-    console.log(result);
-
     //Approach: Update first
     //Update directly
     //Optionally get the updated document.
+
+    
+    const result = await Course.update({_id: id}, {
+        //Use on or more of the mongodb operators.
+        $set: {
+            author: 'dumtacka',
+            isPublished: false
+        }
+    });
+    
+    console.log(result);
 }
 
 updateCourse('5b50fdfc7b3ba87b2c6db2f5');

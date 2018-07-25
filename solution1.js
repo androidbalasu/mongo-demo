@@ -57,15 +57,15 @@ async function updateCourse(id){
     //Optionally get the updated document.
 
     
-    const result = await Course.update({_id: id}, {
+    const course = await Course.findByIdAndUpdate(id, {
         //Use on or more of the mongodb operators.
         $set: {
-            author: 'dumtacka',
-            isPublished: false
+            author: 'Dumtacka',
+            isPublished: true
         }
-    });
+    }, {new: true});
     
-    console.log(result);
+    console.log(course);
 }
 
 updateCourse('5b50fdfc7b3ba87b2c6db2f5');

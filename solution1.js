@@ -26,8 +26,14 @@ async function CreateCourse(){
     isPublished: true
     }) ;
 
+    try{
     const result = await course.save();
     console.log(result);
+    }
+    catch(error)
+        {
+        console.log('Course was not saved: '+ error.message);
+        }
 }
 CreateCourse();
 

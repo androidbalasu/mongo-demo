@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/playground')
     
 //Define the schema for the document collection.
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {type: String, required: true},
     author: String,
     tags: [String],
     date: {type: Date, default: Date.now},
@@ -21,7 +21,6 @@ const Course = mongoose.model('Course', courseSchema);
 async function CreateCourse(){
     //Create a course object
     const course = new Course ({
-    name: 'Angular Course',
     author: 'Prash',
     tags: ['angular', 'frontend'],  //document is mongodb can be a complex object like an array.
     isPublished: true
@@ -30,34 +29,34 @@ async function CreateCourse(){
     const result = await course.save();
     console.log(result);
 }
-//CreateCourse();
+CreateCourse();
 
-async function GetCourses(){
-    const pageNumber = 2;
-    const pageSize = 10;   //Normally these are sent as query parameters to a REST api.
+// async function GetCourses(){
+//     const pageNumber = 2;
+//     const pageSize = 10;   //Normally these are sent as query parameters to a REST api.
 
-    //   /api/courses?pageNumber=2&pageSize=10
+//     //   /api/courses?pageNumber=2&pageSize=10
 
-    //Find an author whose name starts with 'Prash'
-    const courses = await Course
-                                .find({author: 'Prash', isPublished: true}) 
-                                .skip((pageNumber - 1) * pageSize)
-                                .limit(pageSize)  //Limit the number of results.
-                                .sort({name: 1}) //Sort in ascending order.
-                                // .select({name: 1, tags: 1}); //Select the desired properties in the output.
-                                .count();
-    console.log(courses);
-}
+//     //Find an author whose name starts with 'Prash'
+//     const courses = await Course
+//                                 .find({author: 'Prash', isPublished: true}) 
+//                                 .skip((pageNumber - 1) * pageSize)
+//                                 .limit(pageSize)  //Limit the number of results.
+//                                 .sort({name: 1}) //Sort in ascending order.
+//                                 // .select({name: 1, tags: 1}); //Select the desired properties in the output.
+//                                 .count();
+//     console.log(courses);
+// }
 
-//GetCourses();
+// //GetCourses();
 
-async function removeCourse(id){
-    //Delete a course.
+// async function removeCourse(id){
+//     //Delete a course.
 
-    //const result = await Course.deleteOne({_id: id});
-    const course = await Course.findByIdAndRemove (id);
-    console.log(course);
-}
+//     //const result = await Course.deleteOne({_id: id});
+//     const course = await Course.findByIdAndRemove (id);
+//     console.log(course);
+// }
 
-removeCourse('5b50fdfc7b3ba87b2c6db2f5');
+// removeCourse('5b50fdfc7b3ba87b2c6db2f5');
 

@@ -18,7 +18,15 @@ const courseSchema = new mongoose.Schema({
         required: true
     },            
     author: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            validator: function(v){
+                return v && v.length > 0;
+            },
+            message: 'A course should have atleast one tag.'
+        }
+    },
     date: {type: Date, default: Date.now},
     isPublished: Boolean,
     price: {
@@ -35,7 +43,7 @@ async function CreateCourse(){
     const course = new Course ({
     name: 'My course',
     author: 'Prash',
-    tags: ['angular', 'frontend'],  //document is mongodb can be a complex object like an array.
+    tags: null,  //document is mongodb can be a complex object like an array.
     isPublished: true,
     cateogry: 'web',
     price: 15

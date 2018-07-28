@@ -8,11 +8,23 @@ mongoose.connect('mongodb://localhost/playground')
     
 //Define the schema for the document collection.
 const courseSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: { type: String, 
+            required: true,
+            minlength: 3,
+            maxlength: 255},
+    cateogry: {
+        type: String,
+        enum : ['web', 'mobile', 'network'],
+        required: true
+    },            
     author: String,
     tags: [String],
     date: {type: Date, default: Date.now},
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function(){return this.isPublished;}
+    }
 });
 
 //Create a model:  Model defines a programming interface for interacting with the databsae (CRUD) etc.,
@@ -21,15 +33,18 @@ const Course = mongoose.model('Course', courseSchema);
 async function CreateCourse(){
     //Create a course object
     const course = new Course ({
+    name: 'My course',
     author: 'Prash',
     tags: ['angular', 'frontend'],  //document is mongodb can be a complex object like an array.
-    isPublished: true
+    isPublished: true,
+    cateogry: 'web',
+    price: 15
     }) ;
 
     try{
-        await course.validate();
-    // const result = await course.save();
-    // console.log(result);
+    //await course.validate();
+     const result = await course.save();
+     console.log(result);
     }
     catch(error)
         {

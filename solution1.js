@@ -15,7 +15,10 @@ const courseSchema = new mongoose.Schema({
     cateogry: {
         type: String,
         enum : ['web', 'mobile', 'network'],
-        required: true
+        required: true,
+        lowercase: true,
+        //uppercase: true
+        trim: true
     },            
     author: String,
     tags: {
@@ -38,7 +41,11 @@ const courseSchema = new mongoose.Schema({
     isPublished: Boolean,
     price: {
         type: Number,
-        required: function(){return this.isPublished;}
+        required: function(){return this.isPublished;},
+        min: 10,
+        max: 200,
+        get: v => Math.round(v), 
+        set: v => Math.round(v)
     }
 });
 
@@ -50,10 +57,10 @@ async function CreateCourse(){
     const course = new Course ({
     name: 'My course',
     author: 'Prash',
-    tags: null,  //document is mongodb can be a complex object like an array.
+    tags: ['frontend'],  //document is mongodb can be a complex object like an array.
     isPublished: true,
-    cateogry: '-',
-    price: 15
+    cateogry: 'WEB',
+    price: 15.9
     }) ;
 
     try{
@@ -68,26 +75,27 @@ async function CreateCourse(){
         //console.log('Course was not saved: '+ ex.message);
         }
 }
-CreateCourse();
+//CreateCourse();
 
-// async function GetCourses(){
-//     const pageNumber = 2;
-//     const pageSize = 10;   //Normally these are sent as query parameters to a REST api.
+async function GetCourses(){
+    const pageNumber = 2;
+    const pageSize = 10;   //Normally these are sent as query parameters to a REST api.
 
-//     //   /api/courses?pageNumber=2&pageSize=10
+    //   /api/courses?pageNumber=2&pageSize=10
 
-//     //Find an author whose name starts with 'Prash'
-//     const courses = await Course
-//                                 .find({author: 'Prash', isPublished: true}) 
-//                                 .skip((pageNumber - 1) * pageSize)
-//                                 .limit(pageSize)  //Limit the number of results.
-//                                 .sort({name: 1}) //Sort in ascending order.
-//                                 // .select({name: 1, tags: 1}); //Select the desired properties in the output.
-//                                 .count();
-//     console.log(courses);
-// }
+    //Find an author whose name starts with 'Prash'
+    const courses = await Course
+                                .find({_id:'5b5e46e6eb7d004630dc1ac1'})
+                                //.find({author: 'Prash', isPublished: true}) 
+                                // .skip((pageNumber - 1) * pageSize)
+                                // .limit(pageSize)  //Limit the number of results.
+                                .sort({name: 1}) //Sort in ascending order.
+                                 .select({name: 1, tags: 1, price: 1}); //Select the desired properties in the output.
+                                //.count();
+    console.log(courses[0].price);
+}
 
-// //GetCourses();
+GetCourses();
 
 // async function removeCourse(id){
 //     //Delete a course.

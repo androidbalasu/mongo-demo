@@ -52,7 +52,7 @@ async function CreateCourse(){
     author: 'Prash',
     tags: null,  //document is mongodb can be a complex object like an array.
     isPublished: true,
-    cateogry: 'web',
+    cateogry: '-',
     price: 15
     }) ;
 
@@ -61,9 +61,11 @@ async function CreateCourse(){
      const result = await course.save();
      console.log(result);
     }
-    catch(error)
+    catch(ex)
         {
-        console.log('Course was not saved: '+ error.message);
+        for (field in ex.errors)            
+            console.log(ex.errors[field].message);
+        //console.log('Course was not saved: '+ ex.message);
         }
 }
 CreateCourse();
